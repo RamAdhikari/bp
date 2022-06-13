@@ -1,0 +1,25 @@
+formatVersion: 1
+inputs: {}
+resources:
+  Cloud_Network_1:
+    type: Cloud.Network
+    properties:
+      networkType: existing
+      constraints: null
+  Cloud_Machine_1:
+    type: Cloud.Machine
+    properties:
+      image: win2016
+      flavor: Medium
+      constraints: null
+      cloudConfig: |
+        #ps1_sysnative
+          Rename-Computer -NewName "Server05"
+          Get-LocalUser -Name "administrator"|Set-LocalUser -Password "xxx"
+          #Install-WindowsFeature -name Web-Server -IncludeManagementTools
+          runcmd:
+            - net user administrator password "K@thmand0Ra"
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
+      remoteAccess:
+        password: xxx
